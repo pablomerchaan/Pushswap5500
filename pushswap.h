@@ -10,8 +10,8 @@ enum type_of_change
 
 struct change
 {
-	enum type_of_change type;
-	int idx;
+	enum	type_of_change type;
+	int	idx;
 };
 
 struct rots
@@ -23,9 +23,16 @@ struct rots
   int stepsB;
 };
 
-int *transformrot(int *list, int length, struct rots rot, int partition);
-struct rots check(int *list, int length, int partition, int idx);
-int get_next(int *list, int length, int partition, int num);
+struct l
+{
+	int *list;
+	int length;
+	int partition;
+};
+
+int	*transformrot(struct l list, struct rots rot);
+struct	rots check(int *list, int length, int partition, int idx);
+int	get_next(int *list, int length, int partition, int num);
 int	ft_atoi(const char *str);
 int	sq(int c);
 int	*convert(struct change prev, struct change actual);
@@ -39,5 +46,5 @@ int	*transformRR(int *list, int idx, int length);
 int	*transformRRA(int *list, int idx);
 int	*transformRRB(int *list, int idx, int length);
 int	*transformRRR(int *list, int idx, int length);
-int rotations(int *list, int segments, int min, int max, int length);
-struct rots  minrot(struct rots rot1, struct rots rot2);
+int	rotations(int *list, int min, int max, int length);
+struct	rots  minrot(struct rots rot1, struct rots rot2);
