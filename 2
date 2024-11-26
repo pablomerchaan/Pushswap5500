@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:51:30 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/26 19:59:16 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:47:57 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 struct s_rots	check_rrarrb(int *list, int length, int partition, int idx)
 {
+	struct s_rots	rot;
 	int			steps_a;
 	int			steps_b;
 	int			next;
-	struct s_rots			rot;
 
 	next = get_next(list, length, partition, list[idx]);
 	steps_a = idx + 1;
@@ -34,10 +34,10 @@ struct s_rots	check_rrarrb(int *list, int length, int partition, int idx)
 
 struct s_rots	check_rarb(int *list, int length, int partition, int idx)
 {
+	struct s_rots	rot;
 	int			steps_a;
 	int			steps_b;
 	int			next;
-	struct s_rots	rot;
 
 	next = get_next(list, length, partition, list[idx]);
 	steps_a = partition - idx - 1;
@@ -56,10 +56,10 @@ struct s_rots	check_rarb(int *list, int length, int partition, int idx)
 
 struct s_rots	check_rrarb(int *list, int length, int partition, int idx)
 {
+	struct s_rots	rot;
 	int			steps_a;
 	int			steps_b;
 	int			next;
-	struct s_rots	rot;
 
 	next = get_next(list, length, partition, list[idx]);
 	steps_a = idx + 1;
@@ -73,10 +73,10 @@ struct s_rots	check_rrarb(int *list, int length, int partition, int idx)
 
 struct s_rots	check_rarrb(int *list, int length, int partition, int idx)
 {
+	struct s_rots	rot;
 	int			steps_a;
 	int			steps_b;
 	int			next;
-	struct s_rots	rot;
 
 	next = get_next(list, length, partition, list[idx]);
 	steps_a = partition - idx - 1;

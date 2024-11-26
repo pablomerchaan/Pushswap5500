@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_s.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 19:07:51 by paperez-          #+#    #+#             */
+/*   Updated: 2024/11/26 19:32:07 by paperez-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
-int	*transformSA(int *list, int idx)
+
+int	*transform_sa(int *list, int idx)
 {
 	int	tmp;
 
@@ -9,7 +22,7 @@ int	*transformSA(int *list, int idx)
 	return (list);
 }
 
-int	*transformSB(int *list, int idx)
+int	*transform_sb(int *list, int idx)
 {
 	int	tmp;
 
@@ -19,7 +32,7 @@ int	*transformSB(int *list, int idx)
 	return (list);
 }
 
-int	*transformSS(int *list, int idx)
+int	*transform_ss(int *list, int idx)
 {
 	int	tmp;
 

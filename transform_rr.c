@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_rr.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 19:07:38 by paperez-          #+#    #+#             */
+/*   Updated: 2024/11/26 19:29:26 by paperez-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pushswap.h"
 
-
-int	*transformRRA(int *list, int idx)
+int	*transform_rra(int *list, int idx)
 {
 	int	tmp;
 	int	c;
@@ -16,7 +27,8 @@ int	*transformRRA(int *list, int idx)
 	list[c] = tmp;
 	return (list);
 }
-int	*transformRRB(int *list, int idx, int length)
+
+int	*transform_rrb(int *list, int idx, int length)
 {
 	int	tmp;
 	int	c;
@@ -32,10 +44,11 @@ int	*transformRRB(int *list, int idx, int length)
 	return (list);
 }
 
-int	*transformRRR(int *list, int idx, int length)
+int	*transform_rrr(int *list, int idx, int length)
 {
 	int	*r;
-	r = transformRRA(list, idx);
-	r = transformRRB(list, idx, length);
+
+	r = transform_rra(list, idx);
+	r = transform_rrb(list, idx, length);
 	return (r);
 }

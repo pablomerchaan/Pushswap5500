@@ -1,50 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pushswap.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 18:58:52 by paperez-          #+#    #+#             */
+/*   Updated: 2024/11/26 20:12:39 by paperez-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <limits.h>
 
-enum type_of_change
+static const int	g_segments = 9;
+static const int	g_lookahead = 60;
+static const int	g_reclook = 0;
+
+enum e_type_of_change
 {
-	PA, PB, SA, SB, SS, RA, RB, RR, RRA, RRB, RRR
+	PA,
+	PB,
+	SA,
+	SB,
+	SS,
+	RA,
+	RB,
+	RR,
+	RRA,
+	RRB,
+	RRR
 };
 
-struct change
+struct s_change
 {
-	enum	type_of_change type;
+	enum e_type_of_change	type;
+	int			idx;
+};
+
+struct s_rots
+{
+	int	type;
+	int	cost;
 	int	idx;
+	int	steps_a;
+	int	steps_b;
 };
 
-struct rots
+struct s_l
 {
-  int type;
-  int cost;
-  int idx;
-  int stepsA;
-  int stepsB;
+	int	*list;
+	int	length;
+	int	partition;
 };
 
-struct l
-{
-	int *list;
-	int length;
-	int partition;
-};
-
-int	*transformrot(struct l list, struct rots rot);
-struct	rots check(int *list, int length, int partition, int idx);
+int	*transformrot(struct s_l list, struct s_rots rot);
+struct	s_rots check(int *list, int length, int partition, int idx);
 int	get_next(int *list, int length, int partition, int num);
 int	ft_atoi(const char *str);
 int	sq(int c);
-int	*convert(struct change prev, struct change actual);
-int	*transform(int *list, struct change actual, int length);
-int	*transformSA(int *list, int idx);
-int	*transformSB(int *list, int idx);
-int	*transformSS(int *list, int idx);
-int	*transformRA(int *list, int idx);
-int	*transformRB(int *list, int idx, int length);
-int	*transformRR(int *list, int idx, int length);
-int	*transformRRA(int *list, int idx);
-int	*transformRRB(int *list, int idx, int length);
-int	*transformRRR(int *list, int idx, int length);
+int	*convert(struct s_change prev, struct s_change actual);
+int	*transform(int *list, struct s_change actual, int length);
+int	*transform_sa(int *list, int idx);
+int	*transform_sb(int *list, int idx);
+int	*transform_ss(int *list, int idx);
+int	*transform_ra(int *list, int idx);
+int	*transform_rb(int *list, int idx, int length);
+int	*transform_rr(int *list, int idx, int length);
+int	*transform_rra(int *list, int idx);
+int	*transform_rrb(int *list, int idx, int length);
+int	*transform_rrr(int *list, int idx, int length);
 int	rotations(int *list, int min, int max, int length);
-struct	rots  minrot(struct rots rot1, struct rots rot2);
+struct	s_rots  minrot(struct s_rots rot1, struct s_rots rot2);
