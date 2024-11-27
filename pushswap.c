@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/26 20:30:58 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/11/27 16:30:56 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,38 @@ int prerun(int *list, int length){
   return(steps);
 }
 */
+struct s_l	maketmpl(struct s_l list, struct s_rots rot)
+{
+	int	i;
+	struct s_l	tmpl;
+
+	i = 0;
+	tmpl.list = malloc(sizeof(int) * (list.length));
+	while (i < list.length)
+	{
+		tmpl.list[i] = list.list[i];
+		i++;
+	}
+	tmpl.length = list.length;
+	tmpl.partition = list.partition;
+	transformrot(tmpl, rot);
+	return (tmpl);
+}
+
+int	checktype(struct s_l list, struct s_l tmpl, struct s_rots goodrot, int cost)
+{
+	if (goodrot.type != -1)
+	{
+		tmpl.length = list.length;
+		tmpl.partition = list.partition;
+		transformrot(tmpl, goodrot);
+		cost += goodrot.cost;
+		list.partition -= 1;
+	}
+	return (cost);
+	//TODO averiguar por qué esta función hace que el coste aumente.
+}
+
 int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 {
 	int	i;
@@ -59,19 +91,9 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 
 	if (depth == 0)
 		return (0);
-
 	cost = 0;
 	current_depth = 0;
-	tmpl.list = malloc(sizeof(int) * (list.length));
-	i = 0;
-	while (i < list.length)
-	{
-		tmpl.list[i] = list.list[i];
-		i++;
-	}
-	tmpl.length = list.length;
-	tmpl.partition = list.partition;
-	transformrot(tmpl, rot);
+	tmpl = maketmpl(list, rot);
 	current_depth = 1;
 	while (current_depth <= depth && list.partition > 0)
 	{
@@ -98,14 +120,7 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 			}
 			i--;
 		}
-		if (goodrot.type != -1)
-		{
-			tmpl.length = list.length;
-			tmpl.partition = list.partition;
-			transformrot(tmpl, goodrot);
-			cost += goodrot.cost;
-			list.partition -= 1;
-		}
+		checktype(list, tmpl, goodrot, cost);
 		current_depth += 1;
 	}
 	free (tmpl.list);
