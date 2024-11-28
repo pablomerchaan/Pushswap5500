@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:10:52 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/26 20:07:00 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:38:57 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,17 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
+int	gnaux(int c, int partition, int *list, int next)
+{
+	while (c != partition)
+	{
+		if (list[c] < list[next])
+			next = c;
+		c--;
+	}
+	return (next);
+}
+
 int	get_next(int *list, int length, int partition, int num)
 {
 	int	c;
@@ -57,14 +68,7 @@ int	get_next(int *list, int length, int partition, int num)
 	}
 	c--;
 	if (current_next == INT_MAX)
-	{
-		while (c != partition)
-		{
-			if (list[c] < list[next])
-				next = c;
-			c--;
-		}
-	}
+		gnaux(c, partition, list, next);
 	return (next);
 }
 

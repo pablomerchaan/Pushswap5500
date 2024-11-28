@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/27 16:30:56 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:49:16 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int prerun(int *list, int length){
 */
 struct s_l	maketmpl(struct s_l list, struct s_rots rot)
 {
-	int	i;
 	struct s_l	tmpl;
+	int			i;
 
 	i = 0;
 	tmpl.list = malloc(sizeof(int) * (list.length));
@@ -63,7 +63,7 @@ struct s_l	maketmpl(struct s_l list, struct s_rots rot)
 	transformrot(tmpl, rot);
 	return (tmpl);
 }
-
+/*
 int	checktype(struct s_l list, struct s_l tmpl, struct s_rots goodrot, int cost)
 {
 	if (goodrot.type != -1)
@@ -77,64 +77,74 @@ int	checktype(struct s_l list, struct s_l tmpl, struct s_rots goodrot, int cost)
 	return (cost);
 	//TODO averiguar por qué esta función hace que el coste aumente.
 }
+*/
+
+struct s_l	completetmpl(struct s_l tmpl, struct s_l list)
+{
+	tmpl.length = list.length;
+	tmpl.partition = list.partition;
+	return (tmpl);
+}
 
 int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 {
-	int	i;
-	int	cost;
-	int	current_depth;
-	int	current_cost;
-	int	good_cost;
-	struct s_l	tmpl;
+	struct s_intslk	intslk;
 	struct s_rots	goodrot;
 	struct s_rots	candidate;
+	struct s_l		tmpl;
 
 	if (depth == 0)
 		return (0);
-	cost = 0;
-	current_depth = 0;
+	intslk.cost = 0;
 	tmpl = maketmpl(list, rot);
-	current_depth = 1;
-	while (current_depth <= depth && list.partition > 0)
+	intslk.current_depth = 1;
+	while (intslk.current_depth <= depth && list.partition > 0)
 	{
-		i = list.partition - 1;
+		intslk.i = list.partition - 1;
 		goodrot.type = -1;
-		good_cost = INT_MAX;
-		while (i >= 0)
+		intslk.good_cost = INT_MAX;
+		while (intslk.i >= 0)
 		{
-			if (tmpl.list[i] >= current_min)
+			if (tmpl.list[intslk.i] >= current_min)
 			{
-				candidate = check(tmpl.list, list.length, list.partition, i);
-				current_cost = candidate.cost;
+				candidate = check(tmpl.list, list.length, list.partition, intslk.i);
+				intslk.current_cost = candidate.cost;
 				if (g_reclook == 1 && depth > 1)
 				{
-					tmpl.length = list.length;
-					tmpl.partition = list.partition;
-					current_cost += lookahead(tmpl, candidate, current_min, depth - 1);
+					tmpl = completetmpl (tmpl, list);
+					intslk.current_cost += lookahead(tmpl, candidate, current_min, depth - 1);
 				}
-				if (goodrot.type == -1 || current_cost < good_cost)
+				if (goodrot.type == -1 || intslk.current_cost < intslk.good_cost)
 				{
-				goodrot = candidate;
-				good_cost = current_cost;
+					goodrot = candidate;
+					intslk.good_cost = intslk.current_cost;
 				}
 			}
-			i--;
+			intslk.i--;
 		}
-		checktype(list, tmpl, goodrot, cost);
-		current_depth += 1;
+		if (goodrot.type != -1)
+		{
+			tmpl = completetmpl(tmpl, list);
+			transformrot(tmpl, goodrot);
+			intslk.cost += goodrot.cost;
+			list.partition -= 1;
+		}
+		intslk.current_depth += 1;
 	}
 	free (tmpl.list);
-	return (cost);
+	return (intslk.cost);
 }
 
-int	rotaux(struct s_l list, int round, int size_segment, int current_cost, int steps)
+int	rotaux(struct s_l list, int round, int size_segment, int current_cost)
 {
-	int		i;
 	struct s_rots	goodrot;
 	struct s_rots	candidate;
-	int		current_min;
-	int		good_cost;
+	int				current_min;
+	int				good_cost;
+	int				steps;
+	int				i;
 
+	steps = 0;
 	while (round >= 0)
 	{
 		current_min = round * size_segment;
@@ -156,16 +166,16 @@ int	rotaux(struct s_l list, int round, int size_segment, int current_cost, int s
 						goodrot = candidate;
 						good_cost = current_cost;
 					}
-		 /*j = 0;
-		 while (j < list.length) {
-			 printf("%i ", list[j]);
-			 j++;
-		 }
-		 printf("\n\n");
-		 printf("Rots cost: %i, type: %i, A: %i, B: %i", goodrot.cost, goodrot.type, goodrot.steps_a, goodrot.stepsB);
-		 printf("\n\n");
-		 printf("Steps: %i", steps);
-		 printf("\n\n");*/
+		/*j = 0;
+		while (j < list.length) {
+			printf("%i ", list[j]);
+			j++;
+		}
+		printf("\n\n");
+		printf("Rots cost: %i, type: %i, A: %i, B: %i", goodrot.cost, goodrot.type, goodrot.steps_a, goodrot.stepsB);
+		printf("\n\n");
+		printf("Steps: %i", steps);
+		printf("\n\n");*/
 				}
 				i--;
 			}
@@ -176,7 +186,7 @@ int	rotaux(struct s_l list, int round, int size_segment, int current_cost, int s
 			while (i < list.partition)
 			{
 				if (list.list[i] > current_min)
-					break;
+					break ;
 				i++;
 			}
 		}
@@ -187,63 +197,52 @@ int	rotaux(struct s_l list, int round, int size_segment, int current_cost, int s
 
 int rotations(int *lst, int min, int max, int length)
 {
-	int		j;
-	int		i;
-	int		round;
-	int		current_steps;
-	int		steps;
-	int		current_cost;
-	double		size_segment;
-	struct s_l	list;
-	struct s_change	rotation;
+	struct s_intsrot	intsr;
+	struct s_change		rotation;
+	struct s_l			list;
+	double				size_segment;
 
-	steps = 0;
+	intsr.steps = 0;
 	size_segment = (max - min) / g_segments;
 	rotation.type = 0;
 	rotation.idx = length;
 	list.partition = length;
 	list.length = length;
 	list.list = lst;
-	//steps += prerun(list.list, list.length);
-	round = g_segments - 1;
-	steps += rotaux(list, round, size_segment, current_cost, steps);
-	i = get_next(list.list, list.length, 0, INT_MIN);
+	//intsr.steps += prerun(list.list, list.length);
+	intsr.round = g_segments - 1;
+	intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
+	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
 	rotation.type = 9;
 	rotation.idx = 0;
-	j = 0;
-	while (j < list.length - i)
+	intsr.j = 0;
+	while (intsr.j < list.length - intsr.i)
 	{
 		transform(list.list, rotation, list.length);
-		j++;
+		intsr.j++;
 	}
-	if (i == 0)
-		i = list.length;
-	steps += (list.length - i);
-	/*printf("\n\n");
-	printf("Steps withoout list.length: %i", steps);
-	printf("\n\n");
-	printf("\n\n");
-	printf("Length: %i", list.length);
-	printf("\n\n");*/
-	steps += list.length;
-	j = 0;
-	while (j < list.length)
+	if (intsr.i == 0)
+		intsr.i = list.length;
+	intsr.steps += (list.length - intsr.i);
+	intsr.steps += list.length;
+	intsr.j = 0;
+	while (intsr.j < list.length)
 	{
-		printf("%i ", list.list[j]);
-		j++;
+		printf("%i ", list.list[intsr.j]);
+		intsr.j++;
 	}
 	printf("\n\n");
-	printf("Steps: %i", steps);
+	printf("Steps: %i", intsr.steps);
 	printf("\n\n");
-	return (steps);
+	return (intsr.steps);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int	cum;
-	int	max;
-	int	min;
 	struct s_l	list;
+	int			cum;
+	int			max;
+	int			min;
 
 	cum = 0;
 	list.list = NULL;

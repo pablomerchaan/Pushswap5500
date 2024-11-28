@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:22:41 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/26 19:44:51 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 17:14:40 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	*transformrot(struct s_l list, struct s_rots rot)
 			do_rotations (list, rot, 10, 8, rot.cost - rot.steps_a, rot.steps_a);
 	}
 	if (rot.type == 2)
-		do_rotations (list, rot, 5, 9,	rot.steps_a, rot.steps_b);
+		do_rotations (list, rot, 5, 9, rot.steps_a, rot.steps_b);
 	if (rot.type == 3)
-		do_rotations (list, rot, 8, 6,	rot.steps_a, rot.steps_b);
+		do_rotations (list, rot, 8, 6, rot.steps_a, rot.steps_b);
 	return (list.list);
 }
