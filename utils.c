@@ -68,7 +68,7 @@ int	get_next(int *list, int length, int partition, int num)
 	}
 	c--;
 	if (current_next == INT_MAX)
-		gnaux(c, partition, list, next);
+		next = gnaux(c, partition, list, next);
 	return (next);
 }
 
