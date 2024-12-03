@@ -46,7 +46,7 @@ int prerun(int *list, int length){
   return(steps);
 }
 */
-struct s_l	maketmpl(struct s_l list, struct s_rots rot)
+struct s_l	maketmpl(struct s_l list, struct s_rots rot, int sw)
 {
 	struct s_l	tmpl;
 	int			i;
@@ -60,7 +60,8 @@ struct s_l	maketmpl(struct s_l list, struct s_rots rot)
 	}
 	tmpl.length = list.length;
 	tmpl.partition = list.partition;
-	transformrot(tmpl, rot);
+	if (sw == 0)
+		transformrot(tmpl, rot);
 	return (tmpl);
 }
 /*
@@ -138,16 +139,20 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 {
 	struct s_intslk	intslk;
 	struct s_rots	goodrot;
-	struct s_rots	candidate;
 	struct s_l		tmpl;
+	struct s_intslk	tmpints;
 
 	intslk.cost = 0;
-	tmpl = maketmpl(list, rot);
+	tmpl = maketmpl(list, rot, 0);
 	intslk.current_depth = 1;
 	while (intslk.current_depth <= depth && list.partition > 0)
 	{
 		intslk.i = list.partition - 1;
-		goodrot = lkaux(depth, current_min, intslk, list, tmpl);
+		intslk.good_cost = INT_MAX;
+		tmpints = intslk;
+		tmpl = completetmpl (tmpl, list);
+		goodrot = lkaux1(current_min, depth, tmpints, tmpl);
+		intslk = lkaux2(current_min, depth, intslk, tmpl);
 		if (goodrot.type != -1)
 		{
 			tmpl = completetmpl(tmpl, list);
@@ -161,22 +166,47 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 	return (intslk.cost);
 }
 
-struct s_rots	lkaux( double current_min, int depth, struct s_intslk intslk, struct s_l list, struct s_l tmpl)
+struct s_intslk	lkaux2( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl)
 {
 	struct s_rots candidate;
 	struct s_rots goodrot;
 
 	goodrot.type = -1;
-	intslk.good_cost = INT_MAX;
 	while (intslk.i >= 0)
 	{
 		if (tmpl.list[intslk.i] >= current_min)
 		{
-			candidate = check(tmpl.list, list.length, list.partition, intslk.i);
+			candidate = check(tmpl.list, tmpl.length, tmpl.partition, intslk.i);
 			intslk.current_cost = candidate.cost;
 			if (g_reclook == 1 && depth > 1)
 			{
-				tmpl = completetmpl (tmpl, list);
+				intslk.current_cost += lookahead(tmpl, candidate, current_min, depth - 1);
+			}
+			if (goodrot.type == -1 || intslk.current_cost < intslk.good_cost)
+			{
+				goodrot = candidate;
+				intslk.good_cost = intslk.current_cost;
+			}
+		}
+		intslk.i--;
+	}
+	return (intslk);
+}
+
+struct s_rots	lkaux1( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl)
+{
+	struct s_rots candidate;
+	struct s_rots goodrot;
+
+	goodrot.type = -1;
+	while (intslk.i >= 0)
+	{
+		if (tmpl.list[intslk.i] >= current_min)
+		{
+			candidate = check(tmpl.list, tmpl.length, tmpl.partition, intslk.i);
+			intslk.current_cost = candidate.cost;
+			if (g_reclook == 1 && depth > 1)
+			{
 				intslk.current_cost += lookahead(tmpl, candidate, current_min, depth - 1);
 			}
 			if (goodrot.type == -1 || intslk.current_cost < intslk.good_cost)

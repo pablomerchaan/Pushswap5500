@@ -99,5 +99,6 @@ int				*transform_rra(int *list, int idx);
 int				*transform_rrb(int *list, int idx, int length);
 int				*transform_rrr(int *list, int idx, int length);
 int				rotations(int *list, int min, int max, int length);
-struct s_rots	lkaux( double current_min, int depth, struct s_intslk intslk, struct s_l list, struct s_l tmpl);
+struct s_rots	lkaux1( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
 struct s_rots	auxaux(struct s_intsaux ints, struct s_l list, struct s_rots goodrot, int current_cost);
+struct s_intslk	lkaux2( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
