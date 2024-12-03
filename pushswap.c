@@ -140,7 +140,6 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 	struct s_intslk	intslk;
 	struct s_rots	goodrot;
 	struct s_l		tmpl;
-	struct s_intslk	tmpints;
 
 	intslk.cost = 0;
 	tmpl = maketmpl(list, rot, 0);
@@ -149,9 +148,8 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 	{
 		intslk.i = list.partition - 1;
 		intslk.good_cost = INT_MAX;
-		tmpints = intslk;
 		tmpl = completetmpl (tmpl, list);
-		goodrot = lkaux1(current_min, depth, tmpints, tmpl);
+		goodrot = lkaux1(current_min, depth, intslk, tmpl);
 		intslk = lkaux2(current_min, depth, intslk, tmpl);
 		if (goodrot.type != -1)
 		{
@@ -237,7 +235,9 @@ int	rotaux(struct s_l list, int round, int size_segment, int current_cost)
 			ints.good_cost = INT_MAX;
 			goodrot = auxaux(ints, list, goodrot, current_cost);
 			transformrot(list, goodrot);
+			emit_from_rots(goodrot);
 			list.partition -= 1;
+			printf("PB\n");
 			ints.steps += goodrot.cost + 1;
 			ints.i = 0;
 			while (ints.i < list.partition)
@@ -281,16 +281,12 @@ int rotations(int *lst, int min, int max, int length)
 	struct s_l			list;
 	double				size_segment;
 
-	intsr.steps = 0;
 	size_segment = (max - min) / g_segments;
-	rotation.type = 0;
-	rotation.idx = length;
 	list.partition = length;
 	list.length = length;
 	list.list = lst;
-	//intsr.steps += prerun(list.list, list.length);
 	intsr.round = g_segments - 1;
-	intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
+	intsr.steps = rotaux(list, intsr.round, size_segment, intsr.current_cost);
 	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
 	rotation.type = 9;
 	rotation.idx = 0;
@@ -298,12 +294,20 @@ int rotations(int *lst, int min, int max, int length)
 	while (intsr.j < list.length - intsr.i)
 	{
 		transform(list.list, rotation, list.length);
+		emit_step(rotation.type);
 		intsr.j++;
 	}
 	if (intsr.i == 0)
 		intsr.i = list.length;
 	intsr.steps += (list.length - intsr.i);
 	intsr.steps += list.length;
+	intsr.i = 0;
+	while (intsr.i < length)
+	{
+		emit_step(0);
+		intsr.i++;
+	}
+  // remove vvv
 	intsr.j = 0;
 	while (intsr.j < list.length)
 	{
@@ -313,6 +317,7 @@ int rotations(int *lst, int min, int max, int length)
 	printf("\n\n");
 	printf("Steps: %i", intsr.steps);
 	printf("\n\n");
+  // remove ^^^
 	return (intsr.steps);
 }
 

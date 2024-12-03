@@ -14,9 +14,7 @@
 
 int	*transform(int *list, struct s_change actual, int length)
 {
-	if (actual.type == 2)
-		list = transform_sa(list, actual.idx);
-	else if (actual.type == 3)
+	if (actual.type == 3)
 		list = transform_sb(list, actual.idx);
 	else if (actual.type == 4)
 		list = transform_ss(list, actual.idx);

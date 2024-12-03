@@ -81,6 +81,7 @@ struct s_l
 	int	partition;
 };
 
+void	do_print(int type_1, int type_2, int comp_1, int comp_2);
 struct s_rots	minrot(struct s_rots rot1, struct s_rots rot2);
 struct s_rots	check(int *list, int length, int partition, int idx);
 int				*transformrot(struct s_l list, struct s_rots rot);
@@ -102,3 +103,5 @@ int				rotations(int *list, int min, int max, int length);
 struct s_rots	lkaux1( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
 struct s_rots	auxaux(struct s_intsaux ints, struct s_l list, struct s_rots goodrot, int current_cost);
 struct s_intslk	lkaux2( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
+void emit_step(int type);
+void emit_from_rots(struct s_rots rot);

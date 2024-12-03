@@ -38,9 +38,6 @@ int	*do_rotations(struct s_l list, struct s_rots rot, int type_1, int type_2, in
 
 int	*transformrot(struct s_l list, struct s_rots rot)
 {
-	struct s_change	rotation;
-	int				c;
-
 	if (rot.type == 0)
 	{
 		if (rot.steps_a == 0)
