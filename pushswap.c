@@ -85,7 +85,7 @@ struct s_l	completetmpl(struct s_l tmpl, struct s_l list)
 	tmpl.partition = list.partition;
 	return (tmpl);
 }
-
+/*
 int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 {
 	struct s_intslk	intslk;
@@ -133,66 +133,115 @@ int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
 	}
 	free (tmpl.list);
 	return (intslk.cost);
+}*/
+int	lookahead(struct s_l list, struct s_rots rot, double current_min, int depth)
+{
+	struct s_intslk	intslk;
+	struct s_rots	goodrot;
+	struct s_rots	candidate;
+	struct s_l		tmpl;
+
+	intslk.cost = 0;
+	tmpl = maketmpl(list, rot);
+	intslk.current_depth = 1;
+	while (intslk.current_depth <= depth && list.partition > 0)
+	{
+		intslk.i = list.partition - 1;
+		goodrot = lkaux(depth, current_min, intslk, list, tmpl);
+		if (goodrot.type != -1)
+		{
+			tmpl = completetmpl(tmpl, list);
+			transformrot(tmpl, goodrot);
+			intslk.cost += goodrot.cost;
+			list.partition -= 1;
+		}
+		intslk.current_depth += 1;
+	}
+	free (tmpl.list);
+	return (intslk.cost);
+}
+
+struct s_rots	lkaux( double current_min, int depth, struct s_intslk intslk, struct s_l list, struct s_l tmpl)
+{
+	struct s_rots candidate;
+	struct s_rots goodrot;
+
+	goodrot.type = -1;
+	intslk.good_cost = INT_MAX;
+	while (intslk.i >= 0)
+	{
+		if (tmpl.list[intslk.i] >= current_min)
+		{
+			candidate = check(tmpl.list, list.length, list.partition, intslk.i);
+			intslk.current_cost = candidate.cost;
+			if (g_reclook == 1 && depth > 1)
+			{
+				tmpl = completetmpl (tmpl, list);
+				intslk.current_cost += lookahead(tmpl, candidate, current_min, depth - 1);
+			}
+			if (goodrot.type == -1 || intslk.current_cost < intslk.good_cost)
+			{
+				goodrot = candidate;
+				intslk.good_cost = intslk.current_cost;
+			}
+		}
+		intslk.i--;
+	}
+	return (goodrot);
 }
 
 int	rotaux(struct s_l list, int round, int size_segment, int current_cost)
 {
 	struct s_rots	goodrot;
-	struct s_rots	candidate;
-	int				current_min;
-	int				good_cost;
-	int				steps;
-	int				i;
+	struct s_intsaux	ints;
 
-	steps = 0;
+	ints.steps = 0;
 	while (round >= 0)
 	{
-		current_min = round * size_segment;
-		i = -1;
-		while (i != list.partition)
+		ints.current_min = round * size_segment;
+		ints.i = -1;
+		while (ints.i != list.partition)
 		{
-			i = list.partition - 1;
+			ints.i = list.partition - 1;
 			goodrot.type = -1;
-			good_cost = INT_MAX;
-			while (i >= 0)
-			{
-				if (list.list[i] >= current_min)
-				{
-					candidate = check(list.list, list.length, list.partition, i);
-					current_cost = candidate.cost;
-					current_cost += lookahead(list, candidate, current_min, g_lookahead);
-					if (goodrot.type == -1 || current_cost < good_cost)
-					{
-						goodrot = candidate;
-						good_cost = current_cost;
-					}
-		/*j = 0;
-		while (j < list.length) {
-			printf("%i ", list[j]);
-			j++;
-		}
-		printf("\n\n");
-		printf("Rots cost: %i, type: %i, A: %i, B: %i", goodrot.cost, goodrot.type, goodrot.steps_a, goodrot.stepsB);
-		printf("\n\n");
-		printf("Steps: %i", steps);
-		printf("\n\n");*/
-				}
-				i--;
-			}
+			ints.good_cost = INT_MAX;
+			goodrot = auxaux(ints, list, goodrot, current_cost);
 			transformrot(list, goodrot);
 			list.partition -= 1;
-			steps += goodrot.cost + 1;
-			i = 0;
-			while (i < list.partition)
+			ints.steps += goodrot.cost + 1;
+			ints.i = 0;
+			while (ints.i < list.partition)
 			{
-				if (list.list[i] > current_min)
+				if (list.list[ints.i] > ints.current_min)
 					break ;
-				i++;
+				ints.i++;
 			}
 		}
 		round--;
 	}
-	return (steps);
+	return (ints.steps);
+}
+
+struct s_rots	auxaux(struct s_intsaux ints, struct s_l list, struct s_rots goodrot, int current_cost)
+{
+	struct s_rots	candidate;
+	
+	while (ints.i >= 0)
+	{
+		if (list.list[ints.i] >= ints.current_min)
+		{
+			candidate = check(list.list, list.length, list.partition, ints.i);
+			current_cost = candidate.cost;
+			current_cost += lookahead(list, candidate, ints.current_min, g_lookahead);
+			if (goodrot.type == -1 || current_cost < ints.good_cost)
+			{
+				goodrot = candidate;
+				ints.good_cost = current_cost;
+			}
+		}
+		ints.i--;
+	}
+	return (goodrot);
 }
 
 int rotations(int *lst, int min, int max, int length)
