@@ -281,12 +281,13 @@ int rotations(int *lst, int min, int max, int length)
 	struct s_l			list;
 	double				size_segment;
 
+	intsr.steps = 0;
 	size_segment = (max - min) / g_segments;
 	list.partition = length;
 	list.length = length;
 	list.list = lst;
 	intsr.round = g_segments - 1;
-	intsr.steps = rotaux(list, intsr.round, size_segment, intsr.current_cost);
+	intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
 	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
 	rotation.type = 9;
 	rotation.idx = 0;
@@ -297,9 +298,9 @@ int rotations(int *lst, int min, int max, int length)
 		emit_step(rotation.type);
 		intsr.j++;
 	}
+	intsr.steps += (list.length - intsr.i);
 	if (intsr.i == 0)
 		intsr.i = list.length;
-	intsr.steps += (list.length - intsr.i);
 	intsr.steps += list.length;
 	intsr.i = 0;
 	while (intsr.i < length)
@@ -307,7 +308,7 @@ int rotations(int *lst, int min, int max, int length)
 		emit_step(0);
 		intsr.i++;
 	}
-  // remove vvv
+  /* remove vvv
 	intsr.j = 0;
 	while (intsr.j < list.length)
 	{
@@ -317,7 +318,7 @@ int rotations(int *lst, int min, int max, int length)
 	printf("\n\n");
 	printf("Steps: %i", intsr.steps);
 	printf("\n\n");
-  // remove ^^^
+  // remove ^^^*/
 	return (intsr.steps);
 }
 
