@@ -292,6 +292,8 @@ int rotations(int *lst, int min, int max, int length)
 	rotation.type = 9;
 	rotation.idx = 0;
 	intsr.j = 0;
+	if (intsr.i == 0)
+		intsr.i = list.length;
 	while (intsr.j < list.length - intsr.i)
 	{
 		transform(list.list, rotation, list.length);
@@ -299,8 +301,6 @@ int rotations(int *lst, int min, int max, int length)
 		intsr.j++;
 	}
 	intsr.steps += (list.length - intsr.i);
-	if (intsr.i == 0)
-		intsr.i = list.length;
 	intsr.steps += list.length;
 	intsr.i = 0;
 	while (intsr.i < length)
