@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:58:52 by paperez-          #+#    #+#             */
-/*   Updated: 2024/11/28 17:13:11 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:15:41 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,22 @@ struct s_l
 	int	partition;
 };
 
-void	do_print(int type_1, int type_2, int comp_1, int comp_2);
 struct s_rots	minrot(struct s_rots rot1, struct s_rots rot2);
 struct s_rots	check(int *list, int length, int partition, int idx);
+struct s_rots	lkaux1( double current_min, int depth,
+					struct s_intslk intslk, struct s_l tmpl);
+struct s_rots	auxaux(struct s_intsaux ints, struct s_l list,
+					struct s_rots goodrot, int current_cost);
+struct s_intslk	lkaux2( double current_min, int depth,
+					struct s_intslk intslk, struct s_l tmpl);
+void			do_print(int type_1, int type_2, int comp_1, int comp_2);
+void			emit_step(int type);
+void			emit_from_rots(struct s_rots rot);
+struct s_l		maketmpl(struct s_l list, struct s_rots rot, int sw);
+struct s_l		completetmpl(struct s_l tmpl, struct s_l list);
 int				*transformrot(struct s_l list, struct s_rots rot);
+int				lookahead(struct s_l list, struct s_rots rot
+					double current_min, int depth);
 int				get_next(int *list, int length, int partition, int num);
 int				ft_atoi(const char *str);
 int				sq(int c);
@@ -100,8 +112,3 @@ int				*transform_rra(int *list, int idx);
 int				*transform_rrb(int *list, int idx, int length);
 int				*transform_rrr(int *list, int idx, int length);
 int				rotations(int *list, int min, int max, int length);
-struct s_rots	lkaux1( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
-struct s_rots	auxaux(struct s_intsaux ints, struct s_l list, struct s_rots goodrot, int current_cost);
-struct s_intslk	lkaux2( double current_min, int depth, struct s_intslk intslk, struct s_l tmpl);
-void emit_step(int type);
-void emit_from_rots(struct s_rots rot);
