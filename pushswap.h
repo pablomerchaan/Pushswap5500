@@ -6,17 +6,20 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:58:52 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/05 19:15:41 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:57:33 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <limits.h>
+#ifndef PUSHSWAP_H
+# define PUSHWSWAP_H
 
-static const int	g_segments = 9;
-static const int	g_lookahead = 60;
+# include <unistd.h>
+# include <stdarg.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <limits.h>
+
 static const int	g_reclook = 0;
 
 enum e_type_of_change
@@ -95,7 +98,7 @@ void			emit_from_rots(struct s_rots rot);
 struct s_l		maketmpl(struct s_l list, struct s_rots rot, int sw);
 struct s_l		completetmpl(struct s_l tmpl, struct s_l list);
 int				*transformrot(struct s_l list, struct s_rots rot);
-int				lookahead(struct s_l list, struct s_rots rot
+int				lookahead(struct s_l list, struct s_rots rot,
 					double current_min, int depth);
 int				get_next(int *list, int length, int partition, int num);
 int				ft_atoi(const char *str);
@@ -112,3 +115,13 @@ int				*transform_rra(int *list, int idx);
 int				*transform_rrb(int *list, int idx, int length);
 int				*transform_rrr(int *list, int idx, int length);
 int				rotations(int *list, int min, int max, int length);
+int				ft_printf(const char *str, ...);
+int				ft_printp(va_list args, char c);
+int				ft_putnbr(int nb);
+int				ft_puthexa(unsigned int h, const char c, int count);
+int				ft_putpointer(void *p);
+int				ft_putchar(int c);
+int				ft_putstr(char *str);
+int				ft_putuint(unsigned int n);
+int				ft_puthexaux(unsigned long long h, char c, int count);
+#endif

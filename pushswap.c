@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/05 19:36:13 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:10:03 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ struct s_rots	auxaux(struct s_intsaux ints,
 		{
 			candidate = check(list.list, list.length, list.partition, ints.i);
 			current_cost = candidate.cost;
-			current_cost += lookahead(list, candidate, ints.current_min, g_lookahead);
+			current_cost += lookahead(list, candidate, ints.current_min, 60);
 			if (goodrot.type == -1 || current_cost < ints.good_cost)
 			{
 				goodrot = candidate;
@@ -77,13 +77,16 @@ int	rotations(int *lst, int min, int max, int length)
 	double				size_segment;
 
 	intsr.steps = 0;
-	size_segment = (max - min) / g_segments;
+	size_segment = (max - min) / 9;
 	list.partition = length;
 	list.length = length;
 	list.list = lst;
-	intsr.round = g_segments - 1;
+	intsr.round = 8;
 	intsr.current_cost = 0;
-	intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
+	if (length < 15)
+		intsr.steps += rotaux(list, 1, length, intsr.current_cost);
+	else
+		intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
 	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
 	rotation.type = 9;
 	rotation.idx = 0;

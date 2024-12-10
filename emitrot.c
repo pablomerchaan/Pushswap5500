@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 18:23:35 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/05 18:40:14 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:01:36 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	emit_step(int type)
 
 	name = malloc (sizeof(char) * 3);
 	name = get_step_name (type);
-	printf ("%s\n", name);
+	ft_printf ("%s\n", name);
 }
 
 void	do_print(int type_1, int type_2, int comp_1, int comp_2)
