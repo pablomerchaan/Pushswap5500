@@ -6,12 +6,11 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 17:41:17 by paperez-          #+#    #+#             */
-/*   Updated: 2024/06/05 17:04:29 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:17:11 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include <stdio.h>
+#include "pushswap.h"
 
 int	ft_printp(va_list args, char c)
 {

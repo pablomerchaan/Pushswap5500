@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:58:52 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/10 13:57:33 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:48:19 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,5 @@ int				ft_putchar(int c);
 int				ft_putstr(char *str);
 int				ft_putuint(unsigned int n);
 int				ft_puthexaux(unsigned long long h, char c, int count);
+int				sortthree(int *list, int length);
 #endif

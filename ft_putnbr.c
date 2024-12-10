@@ -6,11 +6,11 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:31:20 by paperez-          #+#    #+#             */
-/*   Updated: 2024/05/27 16:59:42 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:18:05 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "pushswap.h"
 
 static int	ft_negativech(int nb)
 {

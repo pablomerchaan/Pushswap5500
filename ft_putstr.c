@@ -6,11 +6,11 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:32:54 by paperez-          #+#    #+#             */
-/*   Updated: 2024/06/05 16:52:57 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:18:51 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "pushswap.h"
 
 int	ft_putstr(char *str)
 {

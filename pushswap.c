@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:10:03 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:46:59 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ int	rotations(int *lst, int min, int max, int length)
 	list.list = lst;
 	intsr.round = 8;
 	intsr.current_cost = 0;
-	if (length < 15)
+	if (length < 4)
+		intsr.steps += sortthree(lst, length);
+	else if (length < 15)
 		intsr.steps += rotaux(list, 1, length, intsr.current_cost);
 	else
 		intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
