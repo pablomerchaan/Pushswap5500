@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:46:59 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:51:01 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ int	rotaux(struct s_l list, int round, int size_segment, int current_cost)
 		ints.i = -1;
 		while (ints.i != list.partition)
 		{
-			ints.i = list.partition - 1;
-			goodrot.type = -1;
-			ints.good_cost = INT_MAX;
 			goodrot = auxaux(ints, list, goodrot, current_cost);
 			transformrot(list, goodrot);
 			emit_from_rots(goodrot);
@@ -51,6 +48,9 @@ struct s_rots	auxaux(struct s_intsaux ints,
 {
 	struct s_rots	candidate;
 
+	ints.i = list.partition - 1;
+	goodrot.type = -1;
+	ints.good_cost = INT_MAX;
 	while (ints.i >= 0)
 	{
 		if (list.list[ints.i] >= ints.current_min)
@@ -69,27 +69,10 @@ struct s_rots	auxaux(struct s_intsaux ints,
 	return (goodrot);
 }
 
-int	rotations(int *lst, int min, int max, int length)
+int	emitlaststeps(struct s_intsrot intsr, int length, struct s_l list)
 {
-	struct s_intsrot	intsr;
 	struct s_change		rotation;
-	struct s_l			list;
-	double				size_segment;
-
-	intsr.steps = 0;
-	size_segment = (max - min) / 9;
-	list.partition = length;
-	list.length = length;
-	list.list = lst;
-	intsr.round = 8;
-	intsr.current_cost = 0;
-	if (length < 4)
-		intsr.steps += sortthree(lst, length);
-	else if (length < 15)
-		intsr.steps += rotaux(list, 1, length, intsr.current_cost);
-	else
-		intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
-	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
+	
 	rotation.type = 9;
 	rotation.idx = 0;
 	intsr.j = 0;
@@ -109,17 +92,33 @@ int	rotations(int *lst, int min, int max, int length)
 		emit_step(0);
 		intsr.i++;
 	}
-  /* remove vvv
-	intsr.j = 0;
-	while (intsr.j < list.length)
+	return (intsr.steps);
+}
+	
+int	rotations(int *lst, int min, int max, int length)
+{
+	struct s_intsrot	intsr;
+	struct s_l			list;
+	double				size_segment;
+
+	intsr.steps = 0;
+	size_segment = (max - min) / 9;
+	list.partition = length;
+	list.length = length;
+	list.list = lst;
+	intsr.round = 8;
+	intsr.current_cost = 0;
+	if (length < 4)
 	{
-		printf("%i ", list.list[intsr.j]);
-		intsr.j++;
+		intsr.steps += sortthree(lst, length);
+		return (intsr.steps);
 	}
-	printf("\n\n");
-	printf("Steps: %i", intsr.steps);
-	printf("\n\n");
-  // remove ^^^*/
+	else if (length < 15)
+		intsr.steps += rotaux(list, 1, length, intsr.current_cost);
+	else
+		intsr.steps += rotaux(list, intsr.round, size_segment, intsr.current_cost);
+	intsr.i = get_next(list.list, list.length, 0, INT_MIN);
+	intsr.steps += emitlaststeps(intsr, length, list);
 	return (intsr.steps);
 }
 
@@ -142,7 +141,7 @@ int	main(int argc, char **argv)
 	{
 		if (ft_atoi(argv[list.length + 1]) == '\0')
 		{
-			printf("ERROR");
+			printf("Error");
 			return ('\0');
 		}
 		list.list[list.length] = ft_atoi(argv[list.length + 1]);
@@ -152,10 +151,8 @@ int	main(int argc, char **argv)
 			min = list.list[list.length];
 		list.length++;
 	}
-	/*
-	if (list.length < 6)
-		cum += sortfive();//TODO funcion que ordene 3 y 5 numeros.
-	else*/
+	if (sorted(list.list, list.length) == 0)
+		return (0);
 	cum += rotations (list.list, min, max, list.length);
 	free (list.list);
 	return (0);
