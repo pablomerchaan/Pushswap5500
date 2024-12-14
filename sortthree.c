@@ -32,6 +32,23 @@ int	sortaux(int *list, int length, int c)
 	}
 	return (c);
 }
+void	sortaux2(int *list, int length)
+{
+	if (list[2] < list[1])
+	{
+		transform_sa (list, length);
+		emit_step(2);
+		transform_ra (list, length);
+		emit_step(5);
+	}
+	else if (list[2] < list[0])
+	{
+		transform_ra(list, length);
+		emit_step(5);
+		transform_ra(list, length);
+		emit_step(5);
+	}
+}
 
 int	sortthree(int *list, int length)
 {
@@ -41,20 +58,8 @@ int	sortthree(int *list, int length)
 	c = sortaux(list, length, c);
 	if (c == 0)
 	{
-		if (list[2] < list[1])
-		{
-			transform_sa (list, length);
-			emit_step(2);
-			transform_ra (list, length);
-			emit_step(5);
-		}
-		else if (list[2] < list[0])
-		{
-			transform_ra(list, length);
-			emit_step(5);
-			transform_ra(list, length);
-			emit_step(5);
-		}
+		if (list[2] < list[1] || list[1] < list[2])
+			sortaux2(list, length);
 		else
 		{
 			transform_sa(list, length);
