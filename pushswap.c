@@ -124,36 +124,48 @@ int	rotations(int *lst, int min, int max, int length)
 
 int	main(int argc, char **argv)
 {
+	struct s_minmax	m;
 	struct s_l	list;
 	int			cum;
-	int			max;
-	int			min;
 
 	cum = 0;
 	list.list = NULL;
-	if (argc < 2)
+	if (argc < 1)
 		printf ("mensaje de error");
-	list.list = malloc (sizeof(int) * (argc - 1));
 	list.length = 0;
-	max = INT_MIN;
-	min = INT_MAX;
-	while (list.length < argc - 1)
+	m.max = INT_MIN;
+	m.min = INT_MAX;
+	if (argc == 2)
 	{
-		if (ft_atoi(argv[list.length + 1]) == '\0')
+		m = oneargument(argv, list.list);
+		if (m.min == 0 && m.max == 0)
 		{
 			printf("Error");
-			return ('\0');
+			return (0);
 		}
-		list.list[list.length] = ft_atoi(argv[list.length + 1]);
-		if (list.list[list.length] > max)
-			max = list.list[list.length];
-		if (list.list[list.length] < min)
-			min = list.list[list.length];
-		list.length++;
+		list.length = howmany(argv);
+	}
+	else
+	{
+		list.list = malloc (sizeof(int) * (argc - 1));
+		while (list.length < argc - 1)
+		{
+			if (ft_atoi(argv[list.length + 1]) == '\0')
+			{
+				printf("Error");
+				return ('\0');
+			}
+			list.list[list.length] = ft_atoi(argv[list.length + 1]);
+			if (list.list[list.length] > m.max)
+				m.max = list.list[list.length];
+			if (list.list[list.length] < m.min)
+				m.min = list.list[list.length];
+			list.length++;
+		}
 	}
 	if (sorted(list.list, list.length) == 0)
 		return (0);
-	cum += rotations (list.list, min, max, list.length);
+	cum += rotations (list.list, m.min, m.max, list.length);
 	free (list.list);
 	return (0);
 }

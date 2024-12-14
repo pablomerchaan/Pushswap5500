@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef PUSHSWAP_H
-# define PUSHWSWAP_H
+# define PUSHSWAP_H
 
 # include <unistd.h>
 # include <stdarg.h>
@@ -35,6 +35,12 @@ enum e_type_of_change
 	RRA,
 	RRB,
 	RRR
+};
+
+struct s_minmax
+{
+	int	min;
+	int	max;
 };
 
 struct s_intsaux
@@ -97,6 +103,7 @@ void			emit_step(int type);
 void			emit_from_rots(struct s_rots rot);
 struct s_l		maketmpl(struct s_l list, struct s_rots rot, int sw);
 struct s_l		completetmpl(struct s_l tmpl, struct s_l list);
+struct s_minmax		oneargument(char **argv, int *list);
 int				*transformrot(struct s_l list, struct s_rots rot);
 int				lookahead(struct s_l list, struct s_rots rot,
 					double current_min, int depth);
@@ -126,4 +133,5 @@ int				ft_putuint(unsigned int n);
 int				ft_puthexaux(unsigned long long h, char c, int count);
 int				sortthree(int *list, int length);
 int				sorted(int *list, int length);
+int				howmany(char **argv);
 #endif
