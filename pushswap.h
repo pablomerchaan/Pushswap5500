@@ -103,9 +103,7 @@ void			emit_step(int type);
 void			emit_from_rots(struct s_rots rot);
 struct s_l		maketmpl(struct s_l list, struct s_rots rot, int sw);
 struct s_l		completetmpl(struct s_l tmpl, struct s_l list);
-struct s_minmax		oneargmin(char **argv, int *list, int length);
 int				*transformrot(struct s_l list, struct s_rots rot);
-int				*onearglist(char **argv);
 int				lookahead(struct s_l list, struct s_rots rot,
 					double current_min, int depth);
 int				get_next(int *list, int length, int partition, int num);
@@ -135,5 +133,7 @@ int				ft_puthexaux(unsigned long long h, char c, int count);
 int				sortthree(int *list, int length);
 int				sorted(int *list, int length);
 int				howmany(char **argv);
+int				word_cnt(const char *s, char c);
 char				**ft_split(char const *s, char c);
+size_t				ft_strlen(const char *s);
 #endif

@@ -17,7 +17,7 @@ SOURCES = ft_printf.c ft_putchar.c ft_putstr.c \
 		  ft_putuint.c ft_aux.c pushswap.c transform.c \
 		  transform_r.c transform_rr.c transform_s.c \
 		  transformrot.c emitrot.c utils.c sortthree.c \
-		 sorted.c lookahead.c checks.c arguments.c ft_split.c 
+		 sorted.c lookahead.c checks.c ft_split.c 
 
 OBJECTS = $(SOURCES:.c=.o)
 

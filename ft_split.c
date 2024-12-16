@@ -35,7 +35,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-static int	word_cnt(const char *s, char c)
+int	word_cnt(const char *s, char c)
 {
 	int	i;
 	int	count;

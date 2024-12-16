@@ -127,34 +127,46 @@ int	main(int argc, char **argv)
 	struct s_minmax	m;
 	struct s_l	list;
 	int			cum;
+	char	**argvtmp;
 
-	cum = 0;
 	list.list = NULL;
 	if (argc < 1)
 		printf ("mensaje de error");
 	list.length = 0;
+	argvtmp = (char **)malloc(sizeof(char *) * (argc - 1));
 	m.max = INT_MIN;
 	m.min = INT_MAX;
 	if (argc == 2)
 	{
-		argv = ft_split(argv[1], ' ');
+		argc = word_cnt(argv[1], ' ');
+		argvtmp = ft_split(argv[1], ' ');
 	}
-	list.list = malloc (sizeof(int) * (argc - 1));
-	while (list.length < argc - 1)
+	else
 	{
-		if (ft_atoi(argv[list.length + 1]) == '\0')
+		cum = 1;
+		while (cum < argc)
+		{
+			argvtmp[cum - 1] = argv[cum];
+			cum++;
+		}
+		argc = argc - 1;
+	}
+	cum = 0;
+	list.list = malloc (sizeof(int) * (argc));
+	while (list.length < argc)
+	{
+		if (ft_atoi(argvtmp[list.length]) == '\0')
 		{
 			printf("Error");
 			return ('\0');
 		}
-		list.list[list.length] = ft_atoi(argv[list.length + 1]);
+		list.list[list.length] = ft_atoi(argvtmp[list.length]);
 		if (list.list[list.length] > m.max)
 			m.max = list.list[list.length];
 		if (list.list[list.length] < m.min)
 			m.min = list.list[list.length];
 		list.length++;
 	}
-	
 	if (sorted(list.list, list.length) == 0)
 		return (0);
 	cum += rotations (list.list, m.min, m.max, list.length);
