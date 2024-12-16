@@ -135,4 +135,5 @@ int				ft_puthexaux(unsigned long long h, char c, int count);
 int				sortthree(int *list, int length);
 int				sorted(int *list, int length);
 int				howmany(char **argv);
+char				**ft_split(char const *s, char c);
 #endif

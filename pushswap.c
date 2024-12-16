@@ -137,33 +137,24 @@ int	main(int argc, char **argv)
 	m.min = INT_MAX;
 	if (argc == 2)
 	{
-		list.length = howmany(argv);
-		list.list = onearglist(argv);
-		m = oneargmin (argv, list.list, list.length);
-		if (m.min == 0 && m.max == 0)
+		argv = ft_split(argv[1], ' ');
+	}
+	list.list = malloc (sizeof(int) * (argc - 1));
+	while (list.length < argc - 1)
+	{
+		if (ft_atoi(argv[list.length + 1]) == '\0')
 		{
 			printf("Error");
-			return (0);
+			return ('\0');
 		}
+		list.list[list.length] = ft_atoi(argv[list.length + 1]);
+		if (list.list[list.length] > m.max)
+			m.max = list.list[list.length];
+		if (list.list[list.length] < m.min)
+			m.min = list.list[list.length];
+		list.length++;
 	}
-	else
-	{
-		list.list = malloc (sizeof(int) * (argc - 1));
-		while (list.length < argc - 1)
-		{
-			if (ft_atoi(argv[list.length + 1]) == '\0')
-			{
-				printf("Error");
-				return ('\0');
-			}
-			list.list[list.length] = ft_atoi(argv[list.length + 1]);
-			if (list.list[list.length] > m.max)
-				m.max = list.list[list.length];
-			if (list.list[list.length] < m.min)
-				m.min = list.list[list.length];
-			list.length++;
-		}
-	}
+	
 	if (sorted(list.list, list.length) == 0)
 		return (0);
 	cum += rotations (list.list, m.min, m.max, list.length);
