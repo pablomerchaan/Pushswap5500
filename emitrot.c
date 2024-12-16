@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 18:23:35 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:01:36 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:24:46 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ char	*get_step_name(int type)
 		return ("PA");
 	else if (type == 1)
 		return ("PB");
+	else if (type == 2)
+		return ("SA");
+	else if (type == 3)
+		return ("SB");
+	else if (type == 4)
+		return ("SS");
 	else if (type == 5)
 		return ("RA");
 	else if (type == 6)

@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 18:58:52 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/11 13:22:54 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:12:06 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ void			emit_step(int type);
 void			emit_from_rots(struct s_rots rot);
 struct s_l		maketmpl(struct s_l list, struct s_rots rot, int sw);
 struct s_l		completetmpl(struct s_l tmpl, struct s_l list);
-struct s_minmax		oneargument(char **argv, int *list);
+struct s_minmax		oneargmin(char **argv, int *list, int length);
 int				*transformrot(struct s_l list, struct s_rots rot);
+int				*onearglist(char **argv);
 int				lookahead(struct s_l list, struct s_rots rot,
 					double current_min, int depth);
 int				get_next(int *list, int length, int partition, int num);

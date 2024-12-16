@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:22:37 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:49:23 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:22:41 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	sortthree(int *list, int length)
 	c = sortaux(list, length, c);
 	if (c == 0)
 	{
-		if (list[2] < list[1] || list[1] < list[2])
+		if (list[2] < list[1] || list[2] < list[0])
 			sortaux2(list, length);
 		else
 		{

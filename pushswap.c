@@ -6,7 +6,7 @@
 /*   By: paperez- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:25:49 by paperez-          #+#    #+#             */
-/*   Updated: 2024/12/11 13:51:01 by paperez-         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:21:33 by paperez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,13 +137,14 @@ int	main(int argc, char **argv)
 	m.min = INT_MAX;
 	if (argc == 2)
 	{
-		m = oneargument(argv, list.list);
+		list.length = howmany(argv);
+		list.list = onearglist(argv);
+		m = oneargmin (argv, list.list, list.length);
 		if (m.min == 0 && m.max == 0)
 		{
 			printf("Error");
 			return (0);
 		}
-		list.length = howmany(argv);
 	}
 	else
 	{
